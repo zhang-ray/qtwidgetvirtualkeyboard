@@ -14,16 +14,19 @@
 #include <QDebug>
 
 
-class key : public QObject {
+class Key : public QObject {
     Q_OBJECT
 public:
-    explicit key(QString t,QObject *parent = 0)
+    constexpr static int BASE_SIZE = 50;
+
+public:
+    explicit Key(QString t,QObject *parent = 0)
         : QObject(parent) {
         text = t;
-        X =10;
-        Y =10;
-        W =t.length()*5 + 20;
-        H =25;
+        X =BASE_SIZE;
+        Y =BASE_SIZE;
+        W =t.length()*BASE_SIZE;
+        H =BASE_SIZE;
         pressed = false;
     }
 
@@ -39,7 +42,7 @@ public:
 
     void setIconFile(QString i) {
         iconFilename = i;
-        W = 25;
+        W = BASE_SIZE;
     }
 
     void setPressed( bool b) {
@@ -101,6 +104,12 @@ class Keyboard : public QWidget
 public:
     Keyboard(QWidget *p);
 
+public:
+    // 获取整个键盘的尺寸
+    const QSize getSize() const {
+        return {Key::BASE_SIZE * 12, Key::BASE_SIZE * 4};
+    }
+
 signals:
     void keyPressed( QString t);
     void backspacePressed(  );
@@ -114,14 +123,16 @@ private :
 
     void initTooltip();
     void initKeys( int indexArraykeys,const char *keymap[]);
-    key *findKey(QPoint p);
-    void setKeyPressed( key *k,QPoint );
+    Key *findKey(QPoint p);
+    void setKeyPressed( Key *k,QPoint );
 
-    QVector<QVector< key * > > keys;
+    QVector<QVector< Key * > > keys;
     QLabel *tooltip;
-    key *currentKey;
+    Key *currentKey;
     int currentindexkeyboard;
     bool uppercase ;
 };
+
+
 
 #endif // KEYBOARD_H

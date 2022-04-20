@@ -25,7 +25,7 @@ public:
         connect(k, SIGNAL(backspacePressed()), this, SLOT(backspacePressed()));
         connect(k, SIGNAL(returnPressed()), this, SLOT(returnPressed()));
 
-        resize(k->size());
+        resize(k->getSize());
     }
 
 
