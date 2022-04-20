@@ -6,7 +6,7 @@
 #include <QDebug>
 
 #include "mainwindow.h"
-#include "keyboard.h"
+#include "Keyboard.hpp"
 
 
 
