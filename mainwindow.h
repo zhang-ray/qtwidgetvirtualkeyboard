@@ -4,28 +4,41 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QDebug>
+#include <qboxlayout.h>
+#include <QLineEdit>
 
-#include "mainwindow.h"
 #include "Keyboard.hpp"
 
 
 
-class MainWindow : public QMainWindow
+class MainWidget : public QWidget
 {
     Q_OBJECT
 
+private:
+    Keyboard *k_ = nullptr;
+    QLineEdit *line_ = nullptr;
 public:
-    MainWindow(QWidget *parent = 0)
-        : QMainWindow(parent)
+    MainWidget(QWidget *parent = 0)
+        : QWidget(parent)
     {
+        auto layout = new QVBoxLayout(this);
 
-        Keyboard *k = new Keyboard(0x0);
-        this->setCentralWidget(k);
-        connect(k, SIGNAL(keyPressed(QString)), this, SLOT(oneKeyPressed(QString)));
-        connect(k, SIGNAL(backspacePressed()), this, SLOT(backspacePressed()));
-        connect(k, SIGNAL(returnPressed()), this, SLOT(returnPressed()));
+        Keyboard *k_ = new Keyboard(0x0);
+        connect(k_, SIGNAL(keyPressed(QString)), this, SLOT(oneKeyPressed(QString)));
+        connect(k_, SIGNAL(backspacePressed()), this, SLOT(backspacePressed()));
+        connect(k_, SIGNAL(returnPressed()), this, SLOT(returnPressed()));
 
-        resize(k->getSize());
+        line_ = new QLineEdit;
+        layout->addWidget(line_);
+        layout->addWidget(k_);
+
+
+        setLayout(layout);
+
+
+        QSize size(k_->getSize().width(), k_->getSize().height() + line_->height());
+        resize(size);
     }
 
 
@@ -33,6 +46,7 @@ public:
 public slots:
     void oneKeyPressed(QString t) {
         qDebug() << " keyPressed " << t;
+        line_->insert(t);
     }
 
     void returnPressed( ) {
@@ -41,6 +55,7 @@ public slots:
 
     void backspacePressed( ) {
         qDebug() << " backspace ";
+        line_->backspace();
     }
 };
 
