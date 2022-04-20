@@ -1,7 +1,5 @@
 #include <QPainter>
 #include <QMouseEvent>
-#include<QDebug>
-#include "key.h"
 #include "keyboard.h"
 
 #define KEYS_TYPE 4
@@ -64,13 +62,13 @@ Keyboard::Keyboard(QWidget *p) : QWidget(p)
     keys = QVector<QVector< key * > >(KEYS_TYPE);
     for (int n=0;n < KEYS_TYPE ; n++)
     {
-      keys[n] = QVector< key * >(nbkey);
+        keys[n] = QVector< key * >(nbkey);
     }
 
     initKeys(LOWERCASE,en_lower_keymap);
     initKeys(NUMBER,en_number_keymap);
     initKeys(UPPERCASE,en_upper_keymap);
-     initKeys(PUNCTUATION,en_punctuation_keymap);
+    initKeys(PUNCTUATION,en_punctuation_keymap);
 }
 
 void Keyboard::initKeys( int indexArraykeys,const char *keymap[])
@@ -95,7 +93,7 @@ void Keyboard::initKeys( int indexArraykeys,const char *keymap[])
             }
             keys[indexArraykeys][n]->setY(row_keymapp[n]*25);
         } else {
-          //  keys[indexArraykeys][n]->setX(offetrows[0]);
+            //  keys[indexArraykeys][n]->setX(offetrows[0]);
             keys[indexArraykeys][n]->setX(0);
             keys[indexArraykeys][n]->setY(row_keymapp[n]*25);
         }
@@ -127,7 +125,7 @@ void Keyboard::mouseMoveEvent(QMouseEvent * e) {
         this->repaint();
     }
     setKeyPressed( findKey(pos), pos );
- }
+}
 
 void Keyboard::mouseReleaseEvent(QMouseEvent *e) {
     QPoint pos = e->pos();
@@ -151,8 +149,8 @@ void Keyboard::mouseReleaseEvent(QMouseEvent *e) {
         if (k->text=="Caps")
         {   if ( uppercase ==false)
             {
-               currentindexkeyboard = UPPERCASE;
-               uppercase = true;
+                currentindexkeyboard = UPPERCASE;
+                uppercase = true;
             }
             else
             {
@@ -183,7 +181,7 @@ void Keyboard::mouseReleaseEvent(QMouseEvent *e) {
             }
             if ( k->text == "space")
             {
-                   emit keyPressed(" ");
+                emit keyPressed(" ");
             } else
             {
                 emit keyPressed(k->text);
@@ -195,10 +193,10 @@ key *Keyboard::findKey(QPoint p)
 {
     foreach (key *k, keys[currentindexkeyboard])
     {
-      if (k->getRect().contains(p))
-      {
-          return k;
-      }
+        if (k->getRect().contains(p))
+        {
+            return k;
+        }
     }
     return 0x0;
 }

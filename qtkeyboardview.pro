@@ -25,14 +25,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
-    keyboard.cpp \
-    key.cpp
+    keyboard.cpp
 
 HEADERS += \
         mainwindow.h \
-    keyboard.h \
-    key.h
+    keyboard.h
 
 DISTFILES +=
 
